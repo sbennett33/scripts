@@ -7,4 +7,4 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-jira issue list -q"key=${1}" --plain --no-headers --columns=summary | awk '{$1="";print $0}' | awk '{$1=$1;print}' | tr '[:upper:]' '[:lower:]' | tr -d '[:punct:]' | tr ' ' '-'
+jira issue list -q"key=${1}" --plain --no-headers --columns=summary | awk '{$1="";print $0}' | awk '{$1=$1;print}' 
