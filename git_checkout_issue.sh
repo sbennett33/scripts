@@ -9,8 +9,6 @@ fi
 
 BRANCH_NAME=`jira issue list -q"key=${1}" --plain --no-headers --columns=summary | awk '{$1="";print $0}' | awk '{$1=$1;print}' | tr '[:upper:]' '[:lower:]' | tr -d '[:punct:]' | tr ' ' '-'`
 
-echo $BRANCH_NAME
-
 # store name of current branch
 BRANCH="sbennett/${1}-${BRANCH_NAME}"
 
@@ -25,3 +23,17 @@ git fetch --all --prune
 
 # checkout the original branch
 git checkout -b $BRANCH
+
+jira issue move $1 "IN PROGRESS"
+
+# get any new dependencies
+mix deps.get
+
+# compile the app
+mix do clean, compile
+
+# run any pending migrations
+doppler run -- mix ecto.migrate
+
+# start editor
+nvim .
