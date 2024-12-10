@@ -35,5 +35,7 @@ mix do clean, compile
 # run any pending migrations
 doppler run -- mix ecto.migrate
 
+rm -rf .elixir_ls
+
 # start editor
 nvim .
